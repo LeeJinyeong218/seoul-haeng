@@ -4,7 +4,7 @@ const color = {
 };
 const borderBold = {
     main: '4px',
-    sub: '1px',
+    sub: '2px',
 };
 const Theme = {
     color,
