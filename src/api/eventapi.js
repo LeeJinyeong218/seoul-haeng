@@ -1,5 +1,4 @@
-import axios from "axios";
-
+const axios = require('axios').default;
 async function getEvents({start, end}) {
     return axios.get(
         `http://openapi.seoul.go.kr:8088/${process.env.REACT_APP_API_KEY}/json/culturalEventInfo/${start.toString()}/${end.toString()}/`
