@@ -4,9 +4,7 @@ import ReturnHome from "../components/ReturnHome";
 import Header from "../components/Book/Header";
 import FilterBox from "../components/Book/FilterBox";
 import List from "../components/Book/List";
-import {getAllEvents} from "../api/eventapi";
 import PageBar from "../components/Book/PageBar";
-import LoadingModal from "../components/LoadingModal";
 import Footer from "../components/Footer";
 
 const StyledBook = styled.div`
@@ -22,11 +20,9 @@ const StyledBook = styled.div`
     height: 2.5rem;
   }
 `
-const Book = () => {
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [loadingError, setLoadingError] = useState(null);
-    const itemNumber = items.length;
+const Book = (props) => {
+    const events = props.events;
+    const eventsNumber = events.length;
 
     const [searchWord, setSearchWord] = useState('');
 
@@ -37,36 +33,15 @@ const Book = () => {
     const VIEW_LIMIT = 5;
     const [pageNumber, setPageNumber] = useState(0);
     const [pageRow, setPageRow] = useState(0);
-    const pageNumberLimit = (itemNumber % VIEW_LIMIT) ? itemNumber/VIEW_LIMIT-1 : itemNumber/VIEW_LIMIT;
+    const pageNumberLimit = (eventsNumber % VIEW_LIMIT) ? eventsNumber/VIEW_LIMIT-1 : eventsNumber/VIEW_LIMIT;
     const pageRowLimit = (pageNumberLimit % VIEW_LIMIT) ?
         pageNumberLimit/VIEW_LIMIT-1 : pageNumberLimit/VIEW_LIMIT;
 
-    const handleLoad = async () => {
-        let result = [];
-        try {
-            setIsLoading(true);
-            setLoadingError(null);
-            result = await getAllEvents();
-        } catch (error) {
-            console.error(error);
-            setLoadingError(error);
-            return;
-        } finally {
-            setIsLoading(false);
-        }
-        setItems(result.sort((a, b) => Date.parse(a['STRTDATE']) - Date.parse(b['STRTDATE'])));
-    };
-
-    useEffect(() => {
-        handleLoad();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     // paged Items
-    const sortedItems = items
+    const sortedEvents = events
         .sort((a, b) => Date.parse(a['STRTDATE']) - Date.parse(b['STRTDATE']));
 
-    const filteredItems = sortedItems
+    const filteredItems = sortedEvents
         .filter(item => {
             if (codeFilter.length === 0) {
                 return true;
@@ -110,11 +85,6 @@ const Book = () => {
         });
 
     const pagedItems = filteredItems.slice(pageNumber*VIEW_LIMIT, (pageNumber+1)*VIEW_LIMIT);
-
-    // useEffect
-    // useEffect(() => {
-    //     console.log("page turned!", pageNumber);
-    // }, [pageNumber]);
 
     useEffect(() => {
         setPageNumber(0);
@@ -166,7 +136,6 @@ const Book = () => {
                     handleGuFilterChange={handleGuFilterChange}
                     handleStateFilterChange={handleStateFilterChange}
                 />
-                {loadingError?.message && <span>{loadingError.message}</span>}
                 <List events={pagedItems}/>
                 <PageBar
                     pageNumber={pageNumber}
@@ -176,7 +145,6 @@ const Book = () => {
                     handlePageLeftTurnerClick={handlePageLeftTurnerClick}
                     handlePageRightTurnerClick={handlePageRightTurnerClick}
                 />
-                {(isLoading || items.length === 0) && <LoadingModal/>}
             </div>
             <ReturnHome />
             <Footer />

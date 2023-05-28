@@ -5,7 +5,7 @@ const StyledNav = styled.div`
   background: white;// rgba(255, 255, 255, 0.9);
   position: fixed;
   left: 0;
-  width: 350px;
+  width: 400px;
   height: 100%;
   z-index: 3;
   

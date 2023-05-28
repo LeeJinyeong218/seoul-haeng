@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Header from "../components/Home/Header";
 import Footer from "../components/Footer";
@@ -6,7 +6,6 @@ import Intro from "../components/Home/Intro";
 import MapLink from "../components/Home/MapLink";
 import EventList from "../components/Home/EventList";
 import BookLink from "../components/Home/BookLink";
-import {getAllEvents} from "../api/eventapi";
 
 const StyledHome = styled.div`
     margin: 0;
@@ -51,41 +50,16 @@ const StyledEventBlock = styled.div`
     justify-content: space-between;
 `;
 
-const Home = () => {
-    const [items, setItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [loadingError, setLoadingError] = useState(null);
+const Home = (props) => {
 
-    const date = new Date();
 
-    const ongoingEvents = [...items]
+    const ongoingEvents = [...props.events]
         .filter((item) => {
-            return Date.parse(item['STRTDATE']) <= date && Date.parse(item['END_DATE']) >= date;
+            return Date.parse(item['STRTDATE']) <= props.date && Date.parse(item['END_DATE']) >= props.date;
         })
         .sort((a, b) => Date.parse(b['STRTDATE']) - Date.parse(a['STRTDATE']))
         .sort((a, b) => Date.parse(a['END_DATE']) - Date.parse(b['END_DATE']))
         .slice(0, 3);
-
-    const handleLoad = async () => {
-        let result = [];
-        try {
-            setIsLoading(true);
-            setLoadingError(null);
-            result = await getAllEvents();
-        } catch (error) {
-            console.error(error);
-            setLoadingError(error);
-            return;
-        } finally {
-            setIsLoading(false);
-        }
-        setItems(result);
-    };
-
-    useEffect(() => {
-        handleLoad();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return (
         <StyledHome>
@@ -94,21 +68,13 @@ const Home = () => {
                 <StyledMainGrid>
                     <StyledMainGridContent><Intro className="content"/></StyledMainGridContent>
                     <StyledMainGridContent><MapLink className="content"/></StyledMainGridContent>
-                    {/*<LoadingProvider>*/}
-                        <StyledMainGridContent className="content">
-                            <StyledEventBlock>
-                                {isLoading ? <div style={{
-                                        textAlign: 'center',
-                                        padding: '100px 0',
-                                        fontSize: '25px',
-                                        color: 'gray'
-                                    }}>불러오는 중입니다.<br />잠시만 기다려주세요.</div> :
-                                    <EventList title="진행 행사" data={ongoingEvents}/>}
-                                <BookLink />
-                            </StyledEventBlock>
-                            {loadingError?.message && <span>{loadingError.message}</span>}
-                        </StyledMainGridContent>
-                    {/*</LoadingProvider>*/}
+                    <StyledMainGridContent className="content">
+                        <StyledEventBlock>
+                            <EventList title="진행 행사" data={ongoingEvents}/>
+                            <BookLink />
+                        </StyledEventBlock>
+
+                    </StyledMainGridContent>
                 </StyledMainGrid>
             </div>
             <Footer />

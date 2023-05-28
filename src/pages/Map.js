@@ -2,20 +2,19 @@ import React, {useEffect, useState} from 'react';
 import ReturnHome from "../components/ReturnHome";
 import LoadingModal from "../components/LoadingModal";
 import {getAllEventPlaces} from "../api/eventplaceapi";
-import CulturalHeritageList from "../assets/cultural_heritage.json"
+// import CulturalHeritageList from "../assets/cultural_heritage.json"
 import NavBar from "../components/Map/NavBar";
-import {getAllEvents} from "../api/eventapi";
 
-const Map = () => {
+const Map = (props) => {
     const [map, setMap] = useState(null);
 
     const [searchWord, setSearchWord] = useState("");
 
-    const [events, setEvents] = useState([]);
-    const date = new Date();
+    const events = props.events;
+    const date = props.date;
 
     const [places, setPlaces] = useState([]);
-    const heritages = CulturalHeritageList['DATA'];
+    // const heritages = CulturalHeritageList['DATA'];
     const [isLoading, setIsLoading] = useState(false);
     const [loadingError, setLoadingError] = useState(null);
 
@@ -68,25 +67,8 @@ const Map = () => {
         setPlaces(result);
     };
 
-    const handleLoadEvents = async () => {
-        let result = [];
-        try {
-            setIsLoading(true);
-            setLoadingError(null);
-            result = await getAllEvents();
-        } catch (error) {
-            console.error(error);
-            setLoadingError(error);
-            return;
-        } finally {
-            setIsLoading(false);
-        }
-        setEvents(result);
-    };
-
     useEffect(() => {
         handleLoadPlaces();
-        handleLoadEvents();
         const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
         setMap(new kakao.maps.Map(container, options)); //지도 생성 및 객체 리턴
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,6 +91,7 @@ const Map = () => {
             })
             map.setCenter(new kakao.maps.LatLng(latsum/placeSet.size, lngsum/placeSet.size))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchWord]);
 
     // handle search bar
@@ -138,12 +121,11 @@ const Map = () => {
             map.panTo(placeMarker.getPosition());
         })
     };
-    // const createHeritageMarker =
     places.forEach(item => createEventPlaceMarker(item, map));
-    // when marker is clicked
 
     return (
         <div>
+            {isLoading && <LoadingModal/>}
             <NavBar
                 viewEvents={viewEventList}
                 selectedPlace={selectedPlace}
