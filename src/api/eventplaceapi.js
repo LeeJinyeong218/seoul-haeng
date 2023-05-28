@@ -1,7 +1,7 @@
 import axios from "axios";
 async function getEventPlaces({start, end}) {
     return axios.get(
-        `https://openapi.seoul.go.kr:8088/${process.env.REACT_APP_API_KEY}/json/culturalSpaceInfo/${start.toString()}/${end.toString()}/`
+        `/culturalSpaceInfo/${start.toString()}/${end.toString()}/`
     ).catch((error) => {
         return console.log("error alert! \n"+error);
     }).then((response) => {
@@ -11,7 +11,7 @@ async function getEventPlaces({start, end}) {
 
 async function getEventPlacesNum() {
     const response = await axios.get(
-        `https://openapi.seoul.go.kr:8088/${process.env.REACT_APP_API_KEY}/json/culturalSpaceInfo/1/1/ /`
+        `/culturalSpaceInfo/1/1/ /`
     );
     return response.data['culturalSpaceInfo']['list_total_count'];
 }

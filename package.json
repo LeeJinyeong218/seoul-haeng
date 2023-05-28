@@ -42,5 +42,6 @@
   },
   "devDependencies": {
     "@types/navermaps": "^3.6.5"
-  }
+  },
+  "proxy": "https://openapi.seoul.go.kr:8088/${process.env.REACT_APP_API_KEY}/json"
 }
