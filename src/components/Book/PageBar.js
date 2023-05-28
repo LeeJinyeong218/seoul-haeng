@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import styled from "styled-components";
-import {usePage, usePageRow, useSetPage, useSetPageRow, useViewLimit} from "../../contexts/PageContext";
 
 const StyledPageBar = styled.div`
   text-align: center;

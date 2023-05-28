@@ -25,7 +25,7 @@ const LoadingModal = () => {
     return (
         <StyledLoadingModal>
             <div className="content">
-                행사를 불러오는 중...<br />
+                불러오는 중...<br />
                 잠시만 기다려주세요...
             </div>
         </StyledLoadingModal>

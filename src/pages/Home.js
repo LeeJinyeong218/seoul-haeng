@@ -6,10 +6,7 @@ import Intro from "../components/Home/Intro";
 import MapLink from "../components/Home/MapLink";
 import EventList from "../components/Home/EventList";
 import BookLink from "../components/Home/BookLink";
-import {getAllEvents} from "../api/api";
-import {useItems, useSetItems} from "../contexts/ItemsContext";
-import {LoadingProvider, useIsLoading, useLoadingError, useSetIsLoading, useSetLoadingError} from "../contexts/LoadingContext";
-
+import {getAllEvents} from "../api/eventapi";
 
 const StyledHome = styled.div`
     margin: 0;
@@ -43,11 +40,6 @@ const StyledMainGridContent = styled.div`
   & span {
     text-align: center;
   }
-  //display: flex;
-  //flex-direction: column;
-  //justify-content: center;
-  //align-items: center;
-  //overflow: hidden;
 `
 
 const StyledEventBlock = styled.div`
@@ -63,12 +55,6 @@ const Home = () => {
     const [items, setItems] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingError, setLoadingError] = useState(null);
-    // const setItems = useSetItems();
-    // const items = useItems();
-    // const setIsLoading = useSetIsLoading();
-    // const isLoading = useIsLoading();
-    // const setLoadingError = useSetLoadingError();
-    // const loadingError = useLoadingError();
 
     const date = new Date();
 
@@ -101,7 +87,6 @@ const Home = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-
     return (
         <StyledHome>
             <div className="contents-wrap">
@@ -111,12 +96,16 @@ const Home = () => {
                     <StyledMainGridContent><MapLink className="content"/></StyledMainGridContent>
                     {/*<LoadingProvider>*/}
                         <StyledMainGridContent className="content">
-                            {isLoading ? <p style={{textAlign: 'center'}}>불러오는 중입니다.<br />잠시만 기다려주세요.</p> :
-                                <StyledEventBlock>
-                                    <EventList title="진행 행사" data={ongoingEvents}/>
-                                    <BookLink />
-                                </StyledEventBlock>
-                            }
+                            <StyledEventBlock>
+                                {isLoading ? <div style={{
+                                        textAlign: 'center',
+                                        padding: '100px 0',
+                                        fontSize: '25px',
+                                        color: 'gray'
+                                    }}>불러오는 중입니다.<br />잠시만 기다려주세요.</div> :
+                                    <EventList title="진행 행사" data={ongoingEvents}/>}
+                                <BookLink />
+                            </StyledEventBlock>
                             {loadingError?.message && <span>{loadingError.message}</span>}
                         </StyledMainGridContent>
                     {/*</LoadingProvider>*/}

@@ -4,15 +4,10 @@ import ReturnHome from "../components/ReturnHome";
 import Header from "../components/Book/Header";
 import FilterBox from "../components/Book/FilterBox";
 import List from "../components/Book/List";
-import {getAllEvents} from "../api/api";
+import {getAllEvents} from "../api/eventapi";
 import PageBar from "../components/Book/PageBar";
 import LoadingModal from "../components/LoadingModal";
 import Footer from "../components/Footer";
-import {useItems, useSetItems} from "../contexts/ItemsContext";
-import {useIsLoading, useLoadingError, useSetIsLoading, useSetLoadingError} from "../contexts/LoadingContext";
-import {FilterProvider, useFilter} from "../contexts/FilterContext";
-import {PageProvider, usePage, useSetPage, useSetPageRow, useViewLimit} from "../contexts/PageContext";
-import {useFilteredItems, useSetFilteredItems, useViewItems} from "../contexts/BookItemsContext";
 
 const StyledBook = styled.div`
   margin: 0;
@@ -45,32 +40,6 @@ const Book = () => {
     const pageNumberLimit = (itemNumber % VIEW_LIMIT) ? itemNumber/VIEW_LIMIT-1 : itemNumber/VIEW_LIMIT;
     const pageRowLimit = (pageNumberLimit % VIEW_LIMIT) ?
         pageNumberLimit/VIEW_LIMIT-1 : pageNumberLimit/VIEW_LIMIT;
-
-
-
-
-    // const setItems = useSetItems();
-    // const items = useItems();
-    //
-    // // const FilteredItems = useFilteredItems();
-    // // const setFilteredItems = useSetFilteredItems();
-    // // const ViewItems = useViewItems();
-    // // const setViewItems = useSetItems();
-    //
-    // const setIsLoading = useSetIsLoading();
-    // const isLoading = useIsLoading();
-    // const setLoadingError = useSetLoadingError();
-    // const loadingError = useLoadingError();
-    //
-    // const [codeFilter, guFilter, stateFilter] = useFilter();
-    //
-    // const page = usePage();
-    // const setPage = useSetPage();
-    // // const pageRow = usePageRow();
-    // const setPageRow = useSetPageRow();
-    // const VIEW_LIMIT = useViewLimit();
-
-    // const [itemNum, setitemNum] = useState(0);
 
     const handleLoad = async () => {
         let result = [];

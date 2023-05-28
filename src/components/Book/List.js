@@ -1,10 +1,9 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import styled, {ThemeProvider} from "styled-components";
 import Theme from "../../styles/Theme";
-import {useSetViewItems, useViewItems} from "../../contexts/BookItemsContext";
-import {FilterProvider, useFilter} from "../../contexts/FilterContext";
 
 const StyledList = styled.div`
+    width: 100%;
 `
 
 const StyledListItem = styled.a`
@@ -16,38 +15,60 @@ const StyledListItem = styled.a`
   color: black;
   padding: 30px;
   overflow: hidden;
+  
   & img {
     display:inline-block;
+    margin-right: 30px;
   }
   & .info {
     display: inline-block;
-    width: 500px;
-    margin-left: 30px;
     vertical-align: top;
   }
   & .title-section {
     margin-bottom: 20px;
-    width: 100em;
   }
   & .desc-section {
-    display: grid;
-    grid-template-columns: repeat(2, 300px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
   }
-  & .title {
-    width: 70%;
-  }
-  & p, h1, h3, h4 {
+  & p, h1, h3 {
     margin: 5px 0;
   }
   & h4 {
     display: inline;
+  }
+  @media (max-width: 600px) {
+    & .info {
+      display: block;
+      width: 100%;
+      vertical-align: top;
+    }
+    & .title-section {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    & .desc-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      width: 100%;
+    }
+    & p, h1, h3 {
+      margin: 5px 0;
+      width: 100%;
+      word-break: break-all;
+    }
+    & h4 {
+      display: inline;
+    }
   }
 `
 const ListItem = ({event}) => {
     return (
         <StyledListItem href={event['ORG_LINK']} target="_blank" rel="noopener noreferrer">
             <img src={event.MAIN_IMG}
-                 style={{width: "150px"}} alt={"event image"}/>
+                 style={{width: "150px"}} alt={"event"}/>
             <div className="info">
                 <div className="title-section">
                     <h3>{event['CODENAME']} | {event['GUNAME']}</h3>
@@ -55,7 +76,6 @@ const ListItem = ({event}) => {
                 </div>
                 <div className="desc-section">
                     <div className="date-part">
-                        <h4>예약일: {event['RGSTDATE']}</h4><br />
                         <h4>행사일: {event['STRTDATE'].slice(0, -10)}</h4>
                         {
                             (event['STRTDATE'] !== event['END_DATE']) ?

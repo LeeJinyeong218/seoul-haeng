@@ -18,7 +18,7 @@ const Footer = () => {
             <StyleFooter>
                 <p>
                     제 2023 서울 열린데이터광장 공공데이터 활용 모바일 앱/웹 경진대회
-                    <br />Team 문화 in
+                    <br />Team 문화 IN
                     <br />Project 서울 行: 행복한 행사들
                 </p>
             </StyleFooter>

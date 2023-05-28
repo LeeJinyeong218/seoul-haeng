@@ -27,29 +27,6 @@ const StyledFunctionPart = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 `
-const StyledButtonBar = styled.div`
-  display: flex;
-  align-items: flex-end;
-  margin-top: 30px;
-`;
-
-const StyledButton = styled.button`
-  border: 3px solid white;
-  border-radius: 50px;
-  background: transparent;
-  color: white;
-  font-size: 18px;
-  font-weight: bolder;
-  width: 180px;
-  height: 75px;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
-  margin-right: 30px;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-  }
-`;
 
 const StyledPageDesc = styled.p`
   display: inline-block;
@@ -92,7 +69,6 @@ const StyledSearchButton = styled.button`
   box-sizing: content-box;
   padding: 0 10px;
   color: white;
-
 `
 
 const Header = (props) => {
