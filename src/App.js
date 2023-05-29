@@ -36,7 +36,7 @@ function App() {
 
   return (
       <div className="App">
-          {isLoading ? LoadingModal: null}
+          {isLoading ? <LoadingModal />: null}
           {loadingError?.message && <span>{loadingError.message}</span>}
           <Routes>
               <Route path="/" element={<Home events={events} date={date}/>} />
