@@ -5,6 +5,7 @@ import Book from "./pages/Book";
 import './App.css';
 import React, {useEffect, useState} from "react";
 import {getAllEvents} from "./api/eventapi";
+import LoadingModal from "./components/LoadingModal";
 
 function App() {
     const [events, setEvents] = useState([]);
@@ -35,12 +36,7 @@ function App() {
 
   return (
       <div className="App">
-          {isLoading ? <div style={{
-                  textAlign: 'center',
-                  padding: '100px 0',
-                  fontSize: '25px',
-                  color: 'gray'
-              }}>불러오는 중입니다.<br />잠시만 기다려주세요.</div> : null}
+          {isLoading ? LoadingModal: null}
           {loadingError?.message && <span>{loadingError.message}</span>}
           <Routes>
               <Route path="/" element={<Home events={events} date={date}/>} />

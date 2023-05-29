@@ -13,7 +13,6 @@ async function getEventsNum() {
     const response = await axios.get(
         `/api/${process.env.REACT_APP_API_KEY}/json/culturalEventInfo/1/1/`
     );
-    console.log(response);
     return response.data['culturalEventInfo']['list_total_count'];
 }
 
