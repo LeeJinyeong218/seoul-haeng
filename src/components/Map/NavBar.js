@@ -146,24 +146,13 @@ const NavBar = (props) => {
             </StyledSearchBar>
             <div className="scroll">
                 { props.selectedPlace !== null && <PlaceInfo item={props.selectedPlace} />}
-                { props.viewEvents.length !== 0 ?
-                    <div className="event-container">
-                        {props.viewEvents.map(item => {
-                            return (
-                                <EventListItem item={item}/>
-                            )
-                        })}
-                    </div>
-                     :
-                    <div style={{
-                        textAlign: 'center',
-                        padding: '100px 0',
-                        fontSize: '25px',
-                        color: 'gray'
-                    }}>
-                        행사가 없습니다!
-                    </div>
-                }
+                <div className="event-container">
+                    {props.viewEvents.map(item => {
+                        return (
+                            <EventListItem item={item}/>
+                        )
+                    })}
+                </div>
             </div>
         </StyledNav>
     );
