@@ -59,11 +59,12 @@ const StyledPlaceInfo = styled.div`
     margin: 0 auto;
     padding-bottom: 10px;
     border-bottom: 1px solid darkgray;
+    margin-top: 20px;
   
     & img {
       display: block;
       width: 200px;
-      margin: 20px auto;
+      margin: 0 auto 20px auto;
       border-radius: 5px;
     }
     & h2, h4, h5{
@@ -112,6 +113,14 @@ const PlaceInfo = ({item}) => {
         </StyledPlaceInfo>
     )
 }
+const HeritageInfo = ({item}) => {
+    return (
+        <StyledPlaceInfo>
+            <h2>{item['name_kor']}</h2>
+            <h4>{item['h_kor_city']} {item['h_kor_gu']} {item['h_kor_dong']}</h4>
+        </StyledPlaceInfo>
+    )
+}
 const EventListItem = ({item}) => {
     return (
         <StyledEvent href={item['ORG_LINK']} target="_blank" rel="noopener noreferrer">
@@ -146,13 +155,16 @@ const NavBar = (props) => {
             </StyledSearchBar>
             <div className="scroll">
                 { props.selectedPlace !== null && <PlaceInfo item={props.selectedPlace} />}
-                <div className="event-container">
-                    {props.viewEvents.map(item => {
-                        return (
-                            <EventListItem item={item}/>
-                        )
-                    })}
-                </div>
+                { props.selectedHeritage !== null && <HeritageInfo item={props.selectedHeritage} />}
+                { props.selectedHeritage === null &&
+                    <div className="event-container">
+                        {props.viewEvents.map(item => {
+                            return (
+                                <EventListItem item={item}/>
+                            )
+                        })}
+                    </div>
+                }
             </div>
         </StyledNav>
     );

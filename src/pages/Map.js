@@ -2,8 +2,10 @@ import React, {useEffect, useState} from 'react';
 import ReturnHome from "../components/ReturnHome";
 import LoadingModal from "../components/LoadingModal";
 import {getAllEventPlaces} from "../api/eventplaceapi";
-// import CulturalHeritageList from "../assets/cultural_heritage.json"
+import CulturalHeritageList from "../assets/cultural_heritage.json"
 import NavBar from "../components/Map/NavBar";
+import PlaceMarkerImage from "../assets/place-marker-icon.svg"
+import HeritageMarkerImage from "../assets/heritage-marker-icon.svg"
 
 const Map = (props) => {
     const [map, setMap] = useState(null);
@@ -19,6 +21,7 @@ const Map = (props) => {
     const [loadingError, setLoadingError] = useState(null);
 
     const [selectedPlace, setSelectedPlace] = useState(null);
+    const [selectedHeritage, setSelectedHeritage] = useState(null);
 
     const { kakao } = window;
 
@@ -114,14 +117,32 @@ const Map = (props) => {
         const placeMarker = new kakao.maps.Marker({
             map: map,
             position: new kakao.maps.LatLng(place['X_COORD'], place['Y_COORD']),
-            clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+            clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+            image: new kakao.maps.MarkerImage(PlaceMarkerImage, new kakao.maps.Size(40, 50), {offset: new kakao.maps.Point(20, 43)}),
         });
         kakao.maps.event.addListener(placeMarker, 'click', () => {
             setSelectedPlace(place);
+            setSelectedHeritage(null);
             map.panTo(placeMarker.getPosition());
+
         })
     };
+    const createEventHeritageMarker = (place, map) => {
+        const HeritageMarker = new kakao.maps.Marker({
+            map: map,
+            position: new kakao.maps.LatLng(place['x_coord'], place['y_coord']),
+            clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+            image: new kakao.maps.MarkerImage(HeritageMarkerImage, new kakao.maps.Size(40, 50), {offset: new kakao.maps.Point(20, 43)}),
+        });
+        kakao.maps.event.addListener(HeritageMarker, 'click', () => {
+            setSelectedHeritage(place);
+            setSelectedPlace(null);
+            map.panTo(HeritageMarker.getPosition());
+        })
+    };
+
     places.forEach(item => createEventPlaceMarker(item, map));
+    CulturalHeritageList['DATA'].forEach(item => createEventHeritageMarker(item, map));
 
     return (
         <div>
@@ -129,6 +150,7 @@ const Map = (props) => {
             <NavBar
                 viewEvents={viewEventList}
                 selectedPlace={selectedPlace}
+                selectedHeritage={selectedHeritage}
                 handleSearchButtonClick={handleSearchButtonClick}
             />
             <div id="map" style={{height:"100vh"}}></div>
