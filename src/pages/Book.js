@@ -41,7 +41,7 @@ const Book = (props) => {
     const sortedEvents = events
         .sort((a, b) => Date.parse(a['STRTDATE']) - Date.parse(b['STRTDATE']));
 
-    const filteredItems = sortedEvents
+    const filteredEvents = sortedEvents
         .filter(item => {
             if (codeFilter.length === 0) {
                 return true;
@@ -84,7 +84,7 @@ const Book = (props) => {
             }
         });
 
-    const pagedItems = filteredItems.slice(pageNumber*VIEW_LIMIT, (pageNumber+1)*VIEW_LIMIT);
+    const pagedEvents = filteredEvents.slice(pageNumber*VIEW_LIMIT, (pageNumber+1)*VIEW_LIMIT);
 
     useEffect(() => {
         setPageNumber(0);
@@ -136,7 +136,7 @@ const Book = (props) => {
                     handleGuFilterChange={handleGuFilterChange}
                     handleStateFilterChange={handleStateFilterChange}
                 />
-                <List events={pagedItems}/>
+                <List events={pagedEvents}/>
                 <PageBar
                     pageNumber={pageNumber}
                     pageRow={pageRow}
