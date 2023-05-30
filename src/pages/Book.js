@@ -59,7 +59,7 @@ const Book = (props) => {
         })
         // eslint-disable-next-line array-callback-return
         .filter(item => {
-            const date = new Date();
+            const date = props.date;
             if (stateFilter.length === 0) {
                 return true;
             }

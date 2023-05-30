@@ -51,8 +51,6 @@ const StyledEventBlock = styled.div`
 `;
 
 const Home = (props) => {
-
-
     const ongoingEvents = [...props.events]
         .filter((item) => {
             return Date.parse(item['STRTDATE']) <= props.date && Date.parse(item['END_DATE']) >= props.date;
